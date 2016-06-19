@@ -7,8 +7,29 @@ import './css/base';
 // Uncomment the following line to enable the polyfill
 // require("babel/polyfill");
 
+import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Application from './components/Application';
+import App from './App';
 
-ReactDOM.render(<Application />, document.getElementById('app'));
+import { AppContainer } from 'react-hot-loader';
+
+ReactDOM.render((
+  <AppContainer>
+    <App/>
+  </AppContainer>
+  ), document.getElementById('app'));
+
+if (module.hot) {
+  module.hot.accept('./App', () => {
+    // If you use Webpack 2 in ES modules mode, you can
+    // use <App /> here rather than require() a <NextApp />.
+    const NextApp = require('./App').default;
+    ReactDOM.render(
+      <AppContainer>
+         <NextApp />
+      </AppContainer>,
+      rootEl
+    );
+  });
+}
